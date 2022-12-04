@@ -2,7 +2,6 @@ package com.asknilesh.composemovieapp.screen.home
 
 import Movie
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +43,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.asknilesh.composemovieapp.R.drawable
+import coil.compose.AsyncImage
+import coil.request.ImageRequest.Builder
+import coil.size.Scale.FILL
 import com.asknilesh.composemovieapp.navigation.MovieScreens
 import getMovies
 
@@ -109,10 +110,14 @@ fun MovieRow(movie: Movie, onMovieClick: (String) -> Unit) {
         horizontalArrangement = Arrangement.SpaceEvenly
       ) {
 
-        Image(
-          painter = painterResource(drawable.hulk),
-          contentDescription = "Movie Image",
-          modifier = Modifier.height(100.dp)
+        AsyncImage(
+          model = Builder(LocalContext.current)
+            .data(movie.images.first())
+            .crossfade(true)
+            .scale(FILL)
+            .build(),
+          contentDescription = null,
+          modifier = Modifier.height(130.dp).width(100.dp)
         )
 
         Spacer(modifier = Modifier.width(10.dp))
